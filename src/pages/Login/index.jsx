@@ -17,8 +17,11 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import LoadingButton from "@mui/lab/LoadingButton";
 import ButtonGoogle from "../../components/ButtonGoogle";
 import ButtonFacebook from "../../components/ButtonFacebook";
+import { useNavigate } from "react-router-dom";
+import { handleLogin } from "../../hooks/login.js";
 
 function Login() {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = React.useState(false);
 
   const validationSchema = object({
@@ -26,9 +29,8 @@ function Login() {
     password: string().required("Requerido"),
   });
 
-  const handleSubmit = ({ email, password }) => {
-    console.log("email", email);
-    console.log("password", password);
+  const handleSubmit = (data) => {
+    handleLogin(data);
   };
 
   const formik = useFormik({
@@ -116,9 +118,7 @@ function Login() {
           <Link
             sx={{ cursor: "pointer" }}
             underline="none"
-            onClick={() => {
-              console.info("I'm a button.");
-            }}
+            onClick={() => navigate("/cadastro")}
           >
             Resgistrar
           </Link>

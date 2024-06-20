@@ -14,14 +14,39 @@ import Login from './pages/Login';
 import Row from './components/Row';
 import Cryptography from './pages/Cryptography';
 import Tasks from './pages/Tasks';
+import SingUp from './pages/SignUp';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Router>
       <Routes>
-        <Route
+        <Route 
           path='/' 
+          element={
+            <Row
+              style={{ height: "100vh", backgroundColor: "#FFF" }}
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Login />
+            </Row>
+          }
+        />
+        <Route 
+          path='/cadastro' 
+          element={
+            <Row
+              style={{ height: "100vh", backgroundColor: "#FFF" }}
+              alignItems="center"
+              justifyContent="center"
+            >
+              <SingUp />
+            </Row>
+          }
+        />
+        <Route
+          path='/home' 
           element={
             <Layout>
               <Home />
@@ -42,18 +67,6 @@ root.render(
             <Layout>
               <Tasks />
             </Layout>
-          }
-        />
-        <Route 
-          path='/login' 
-          element={
-            <Row
-              style={{ height: "100vh", backgroundColor: "#FFF" }}
-              alignItems="center"
-              justifyContent="center"
-            >
-              <Login />
-            </Row>
           }
         />
       </Routes>

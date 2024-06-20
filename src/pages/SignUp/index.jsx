@@ -1,61 +1,44 @@
 import React from "react";
-import "./Login.styles.js";
+import "./SingUp.styles.js";
 import {
   Box,
   Button,
-  Divider,
   IconButton,
   InputAdornment,
-  Link,
   TextField,
   Typography,
-  styled,
 } from "@mui/material";
 import { useFormik } from "formik";
 import { object, string } from "yup";
 import Row from "../../components/Row/Row.jsx";
-import { useNavigate } from "react-router-dom";
-import SendIcon from "@mui/icons-material/Send";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import LoadingButton from "@mui/lab/LoadingButton";
-import GoogleIcon from "@mui/icons-material/Google";
-import FacebookIcon from "@mui/icons-material/Facebook";
+import { useNavigate } from "react-router-dom";
+import { handleSingUp } from "../../hooks/sing-up.js";
 
-function Login() {
+function SingUp() {
   const navigate = useNavigate();
-
   const [showPassword, setShowPassword] = React.useState(false);
 
   const validationSchema = object({
+    name: string().required("Requerido"),
+    surname: string().required("Requerido"),
     email: string().email("Email inválido").required("Requerido"),
     password: string().required("Requerido"),
   });
 
-  const handleSubmit = ({ email, password }) => {
-    console.log("email", email);
-    console.log("password", password);
+  const handleSubmit = (data) => {
+    handleSingUp(data);
   };
 
   const formik = useFormik({
-    initialValues: { email: "", password: "" },
+    initialValues: { name: "", surname: "", email: "", password: "" },
     onSubmit: (values) => {
       handleSubmit(values);
     },
     validationSchema,
   });
-
-  const ColorButton = styled(Button)(() => ({
-    display: "flex",
-    justifyContent: "start",
-    alignItems: "center",
-    fontSize: "16px",
-    marginTop: "16px",
-    height: "52px",
-    textTransform: "none",
-    borderColor: "var(--border-color)",
-    color: "var(--border-color)",
-  }));
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -71,6 +54,32 @@ function Login() {
         <Typography mb="24px" variant="h4" fontWeight="bold" color="#000">
           Seja bem-vindo!
         </Typography>
+        <TextField
+          sx={{ height: "52px" }}
+          fullWidth
+          name="name"
+          label={"Nome"}
+          type={"name"}
+          value={formik.values.name}
+          onChange={formik.handleChange}
+          error={formik.touched.name && !!formik.errors.name}
+          helperText={formik.touched.name && formik.errors.name}
+        />
+      </Box>
+      <Box mb={4}>
+        <TextField
+          sx={{ height: "52px" }}
+          fullWidth
+          name="surname"
+          label={"Sobrenome"}
+          type={"surname"}
+          value={formik.values.surname}
+          onChange={formik.handleChange}
+          error={formik.touched.surname && !!formik.errors.surname}
+          helperText={formik.touched.surname && formik.errors.surname}
+        />
+      </Box>
+      <Box mb={4}>
         <TextField
           sx={{ height: "52px" }}
           fullWidth
@@ -113,7 +122,15 @@ function Login() {
         />
       </Box>
 
-      <Row flexDirection="column" alignItems="center" justifyContent="center">
+      <Row gap={2} alignItems="center" justifyContent="center">
+        <Button
+          sx={{ height: "52px" }}
+          fullWidth
+          variant="outlined"
+          onClick={() => navigate("/")}
+        >
+          {"Voltar"}
+        </Button>
         <LoadingButton
           sx={{ height: "52px" }}
           fullWidth
@@ -124,38 +141,9 @@ function Login() {
         >
           {"Continuar"}
         </LoadingButton>
-        <Typography
-          sx={{ m: "16px 0" }}
-          variant="caption"
-          fontSize="14px"
-          color="#000"
-        >
-          Não tem uma conta?{" "}
-          <Link
-            sx={{ cursor: "pointer" }}
-            underline="none"
-            onClick={() => {
-              console.info("I'm a button.");
-            }}
-          >
-            Resgistrar
-          </Link>
-        </Typography>
-      </Row>
-
-      <Divider sx={{ color: "var(--border-color)", fontSize: "12px" }}>
-        OU
-      </Divider>
-      <Row flexDirection="column">
-        <ColorButton startIcon={<GoogleIcon />} variant="outlined">
-          Continuar com o google
-        </ColorButton>
-        <ColorButton startIcon={<FacebookIcon />} variant="outlined">
-          Continuar com o facebook
-        </ColorButton>
       </Row>
     </form>
   );
 }
 
-export default Login;
+export default SingUp;

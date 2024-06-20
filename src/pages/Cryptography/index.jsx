@@ -16,36 +16,27 @@ import Row from "../../components/Row/Row.jsx";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import InfoIcon from "@mui/icons-material/Info";
-
-const rows = [
-  {
-    id: 1,
-    ativo: true,
-    entrada: "CPF",
-    criptografia: "000.000.000-00",
-  },
-  {
-    id: 2,
-    ativo: true,
-    entrada: "RG",
-    criptografia: "000000000-0",
-  },
-  {
-    id: 3,
-    ativo: true,
-    entrada: "CEP",
-    criptografia: "Avenida teste, 000",
-  },
-  {
-    id: 4,
-    ativo: false,
-    entrada: "CNPJ",
-    criptografia: "00.000.000/0000-00",
-  },
-];
+import {
+  handleAddCryptography,
+  handleCryptography,
+} from "../../hooks/cryptography.js";
 
 function Cryptography() {
-  const handleSubmit = () => {};
+  const { data: rows } = handleCryptography();
+
+  const handleSubmit = (data) => {
+    try {
+      const newData = rows.filter((a) => !data.includes(a));
+      if (newData) {
+        newData.map((a) => {
+          const result = handleAddCryptography(a);
+          return result;
+        });
+      }
+    } catch {
+      console.log("Não há novos registros para serem salvos");
+    }
+  };
 
   const formik = useFormik({
     initialValues: { rows: rows || [] },
