@@ -4,7 +4,7 @@ export const handleSingUp = async (data) => {
 
   try {
     const response = await axios.post(
-      'http://srv-apidtm:8080/DataMask/webresources/api/Usuario/Inserir', 
+      'http://10.240.20.176:8080/DataMask/webresources/api/Usuario/Inserir', 
       {
         nomecliente: data.name,
         sobrenome: data.surname,
