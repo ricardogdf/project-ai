@@ -1,11 +1,10 @@
 import React from "react";
-import "./index.css";
 import FacebookLogin from "@greatsumini/react-facebook-login";
 import { Button } from "@mui/material";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import { useNavigate } from "react-router-dom";
 import Toast from "../Toast";
-import { useAuth } from "../../context/authContect";
+import { useAuth } from "../../context/authContext";
 
 const ButtonFacebook = () => {
   const navigate = useNavigate();

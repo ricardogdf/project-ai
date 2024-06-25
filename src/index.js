@@ -18,9 +18,10 @@ import Tasks from './pages/Tasks';
 import SingUp from './pages/SignUp';
 import Toast from './components/Toast';
 import Consumption from './pages/Consumption';
-import { AuthProvider, useAuth } from './context/authContect';
+import { AuthProvider, useAuth } from './context/authContext';
 import PrivateRoute from './routes/PrivateRoute';
 import OpenRoute from './routes/OpenRoute';
+import Financial from './pages/Financial';
 
 function InvalidUrl() {
   const { isAuthenticated } = useAuth();
@@ -88,6 +89,10 @@ root.render(
 
           <Route path='/consumption' element={<PrivateRoute />}>
             <Route path='/consumption' element={<Layout> <Consumption /> </Layout>} />
+          </Route>
+ 
+          <Route path='/financial' element={<PrivateRoute />}>
+            <Route path='/financial' element={<Layout> <Financial /> </Layout>} />
           </Route>
 
           <Route path="*" element={<InvalidUrl/>}/>

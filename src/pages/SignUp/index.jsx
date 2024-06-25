@@ -18,7 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { handleSingUp } from "../../hooks/sing-up.js";
 import Toast from "../../components/Toast/Toast.jsx";
 import { Toaster } from "react-hot-toast";
-import { useAuth } from "../../context/authContect.js";
+import { useAuth } from "../../context/authContext.js";
 
 function SingUp() {
   const { login } = useAuth();

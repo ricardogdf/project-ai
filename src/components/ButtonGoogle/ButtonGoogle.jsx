@@ -2,7 +2,7 @@ import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import React from "react";
 import Toast from "../Toast";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/authContect";
+import { useAuth } from "../../context/authContext";
 
 const ButtonGoogle = () => {
   const navigate = useNavigate();

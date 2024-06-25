@@ -9,7 +9,8 @@ import Logout from "@mui/icons-material/Logout";
 import { Box, IconButton, Tooltip } from "@mui/material";
 import { deepPurple } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/authContect";
+import { useAuth } from "../../context/authContext";
+import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 
 const AccountMenu = () => {
   const navigate = useNavigate();
@@ -96,6 +97,15 @@ const AccountMenu = () => {
           <Avatar /> Perfil
         </MenuItem>
         <Divider sx={{ borderColor: "var(--border-color)" }} />
+        <MenuItem onClick={() => navigate("/financial")}>
+          <ListItemIcon>
+            <CurrencyExchangeIcon
+              sx={{ fill: "var(--primary-color)" }}
+              fontSize="small"
+            />
+          </ListItemIcon>
+          Financeiro
+        </MenuItem>
         <MenuItem onClick={() => navigate("/consumption")}>
           <ListItemIcon>
             <AutoGraphIcon
