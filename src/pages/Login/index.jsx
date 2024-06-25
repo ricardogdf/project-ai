@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./Login.styles.js";
 import {
   Box,
@@ -21,9 +21,11 @@ import { useNavigate } from "react-router-dom";
 import { handleLogin } from "../../hooks/login.js";
 import Toast from "../../components/Toast/Toast.jsx";
 import { Toaster } from "react-hot-toast";
+import { useAuth } from "../../context/authContect.js";
 
 function Login() {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [showPassword, setShowPassword] = React.useState(false);
   const [isLoading, setIsloading] = React.useState(false);
 
@@ -32,17 +34,13 @@ function Login() {
     password: string().required("Requerido"),
   });
 
-  useEffect(() => {
-    localStorage.removeItem("userId");
-  }, []);
-
   const handleSubmit = async (formData) => {
     setIsloading(true);
     try {
       const { data } = await handleLogin(formData);
 
       if (data.ID) {
-        localStorage.setItem("userId", data.ID);
+        login();
         navigate("/home");
         Toast.success({
           message: "Login realizado com sucesso!",

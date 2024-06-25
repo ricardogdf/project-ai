@@ -1,4 +1,4 @@
-import React from 'react';
+import React  from 'react';
 import ReactDOM from 'react-dom/client';
 import './styles/index.css';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
@@ -18,101 +18,82 @@ import Tasks from './pages/Tasks';
 import SingUp from './pages/SignUp';
 import Toast from './components/Toast';
 import Consumption from './pages/Consumption';
-
-function isUserLoggedIn() {
-  return localStorage.getItem('userId') !== null;
-}
+import { AuthProvider, useAuth } from './context/authContect';
+import PrivateRoute from './routes/PrivateRoute';
+import OpenRoute from './routes/OpenRoute';
 
 function InvalidUrl() {
-  if(isUserLoggedIn()){
+  const { isAuthenticated } = useAuth();
+
+  if(isAuthenticated){
     Toast.error({
       message: `URL inválida. Redirecionando para a home.`,
     });
-    return <Navigate to ="/home" />
+    return <Navigate to="/home" />
   }else{
     Toast.error({
       message: `URL inválida ou pendente de login. Redirecionando para a login.`,
     });
-    return <Navigate to ="/" />
+    return <Navigate to="/" />
   }
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Router>
-      <Routes>
-        {!isUserLoggedIn() && (
-          <Route 
-            path='/' 
-            element={
-              <Row
-                style={{ height: "100vh", backgroundColor: "#FFF" }}
-                alignItems="center"
-                justifyContent="center"
-              >
-                <Login />
-              </Row>
-            }
-          />
-          )}
-          {!isUserLoggedIn() && (
-          <Route 
-            path='/cadastro' 
-            element={
-              <Row
-                style={{ height: "100vh", backgroundColor: "#FFF" }}
-                alignItems="center"
-                justifyContent="center"
-              >
-                <SingUp />
-              </Row>
-            }
-          />
-        )}
-        {isUserLoggedIn() && (
-          <Route
-            path='/home' 
-            element={
-              <Layout>
-                <Home />
-              </Layout>
-            }
-          />
-        )}
-        {isUserLoggedIn() && (
-          <Route
-            path='/cryptography' 
-            element={
-              <Layout>
-                <Cryptography />
-              </Layout>
-            }
-          />
-        )}
-        {isUserLoggedIn() && (
-          <Route
-            path='/tasks' 
-            element={
-              <Layout>
-                <Tasks />
-              </Layout>
-            }
-          />
-        )}
-        {isUserLoggedIn() && (
-          <Route
-            path='/consumption' 
-            element={
-              <Layout>
-                <Consumption />
-              </Layout>
-            }
-          />
-        )}
-        <Route path="*" element={<InvalidUrl/>}/>
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path='/' element={<OpenRoute />}>
+            <Route 
+              path='/' 
+              element={
+                <Row
+                  style={{ height: "100vh", backgroundColor: "#FFF" }}
+                  alignItems="center"
+                  justifyContent="center"
+                >
+                  <Login />
+                </Row>
+              } 
+            />
+          </Route>
+
+          <Route path='/cadastro' element={<OpenRoute />}>
+            <Route 
+              path='/cadastro' 
+              element={
+                <Row
+                  style={{ height: "100vh", backgroundColor: "#FFF" }}
+                  alignItems="center"
+                  justifyContent="center"
+                >
+                  <SingUp />
+                </Row>
+              } 
+            />
+          </Route>
+ 
+          <Route path='/home' element={<PrivateRoute />}>
+            <Route path='/home' element={<Layout> <Home /> </Layout>} />
+          </Route>
+
+          <Route path='/cryptography' element={<PrivateRoute />}>
+            <Route path='/cryptography' element={<Layout> <Cryptography /> </Layout>} />
+          </Route>
+
+          <Route path='/tasks' element={<PrivateRoute />}>
+            <Route path='/tasks' element={<Layout> <Tasks /> </Layout>} />
+          </Route>
+
+          <Route path='/consumption' element={<PrivateRoute />}>
+            <Route path='/consumption' element={<Layout> <Consumption /> </Layout>} />
+          </Route>
+
+          <Route path="*" element={<InvalidUrl/>}/>
+        </Routes>
+      </Router>
+    </AuthProvider>
   </React.StrictMode>
 );
 

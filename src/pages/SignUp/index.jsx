@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./SingUp.styles.js";
 import {
   Box,
@@ -31,17 +31,12 @@ function SingUp() {
     password: string().required("Requerido"),
   });
 
-  useEffect(() => {
-    localStorage.removeItem("userId");
-  }, []);
-
   const handleSubmit = async (formData) => {
     setIsloading(true);
     try {
       const { data } = await handleSingUp(formData);
 
       if (data.ID) {
-        localStorage.setItem("userId", data.ID);
         navigate("/home");
         Toast.success({
           message: "Cadatro realizado com sucesso!",

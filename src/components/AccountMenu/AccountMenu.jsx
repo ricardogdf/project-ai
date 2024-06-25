@@ -9,9 +9,11 @@ import Logout from "@mui/icons-material/Logout";
 import { Box, IconButton, Tooltip } from "@mui/material";
 import { deepPurple } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/authContect";
 
 const AccountMenu = () => {
   const navigate = useNavigate();
+  const { logout } = useAuth();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -24,7 +26,7 @@ const AccountMenu = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("userId");
+    logout();
     navigate("/");
   };
 

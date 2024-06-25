@@ -45,6 +45,8 @@ function Cryptography() {
     },
   });
 
+  console.log(formik.values.rows);
+
   const handleActivate = async (e, row) => {
     e.stopPropagation();
 
@@ -54,14 +56,21 @@ function Cryptography() {
     };
 
     try {
-      formik.setValues({ ...formik.values, rowToUpdate });
+      formik.setValues({
+        rows: [
+          ...formik.values.rows.filter(({ id }) => id !== rowToUpdate.id),
+          rowToUpdate,
+        ],
+      });
 
       Toast.success({
-        message: "Máscara atualizado com sucesso!",
+        message: `Linha ${row.ativo ? "desativada" : "ativada"} com sucesso!`,
       });
     } catch (error) {
       Toast.error({
-        message: `Erro ao atualizar máscara. Contate o suporte.`,
+        message: `Erro ao ${
+          row.ativo ? "desativar" : "ativar"
+        } a linha. Contate o suporte.`,
       });
     }
   };
@@ -75,11 +84,11 @@ function Cryptography() {
       });
 
       Toast.success({
-        message: "Nova linha adicionada com sucesso!",
+        message: "Linha apagada com sucesso!",
       });
     } catch (error) {
       Toast.error({
-        message: `Erro ao adicionar nova linha. Tente novamente mais tarde.`,
+        message: `Erro ao apagar a linha. Tente novamente mais tarde.`,
       });
     }
   };
@@ -98,11 +107,11 @@ function Cryptography() {
       formik.setValues({ rows: [...formik.values.rows, rowToAdd] });
 
       Toast.success({
-        message: "Nova linha adicionada com sucesso!",
+        message: "Linha adicionada com sucesso!",
       });
     } catch (error) {
       Toast.error({
-        message: `Erro ao adicionar nova linha. Tente novamente mais tarde.`,
+        message: `Erro ao adicionar linha. Tente novamente mais tarde.`,
       });
     }
   };

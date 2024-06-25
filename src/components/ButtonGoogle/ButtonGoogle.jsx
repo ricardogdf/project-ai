@@ -1,13 +1,25 @@
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import React from "react";
+import Toast from "../Toast";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/authContect";
 
 const ButtonGoogle = () => {
-  const handleSuccess = (response) => {
-    console.log("Login successful:", response);
+  const navigate = useNavigate();
+  const { login } = useAuth();
+
+  const handleSuccess = () => {
+    Toast.success({
+      message: "Login com o google realizado com sucesso!",
+    });
+    login();
+    navigate("/home");
   };
 
-  const handleFailure = (error) => {
-    console.error("Login failed:", error);
+  const handleFailure = () => {
+    Toast.error({
+      message: "Erro ao fazer login com o google. Contate o suporte!",
+    });
   };
 
   return (
