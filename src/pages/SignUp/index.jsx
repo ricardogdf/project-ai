@@ -18,8 +18,10 @@ import { useNavigate } from "react-router-dom";
 import { handleSingUp } from "../../hooks/sing-up.js";
 import Toast from "../../components/Toast/Toast.jsx";
 import { Toaster } from "react-hot-toast";
+import { useAuth } from "../../context/authContect.js";
 
 function SingUp() {
+  const { login } = useAuth();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = React.useState(false);
   const [isLoading, setIsloading] = React.useState(false);
@@ -37,6 +39,7 @@ function SingUp() {
       const { data } = await handleSingUp(formData);
 
       if (data.ID) {
+        login(data.ID);
         navigate("/home");
         Toast.success({
           message: "Cadatro realizado com sucesso!",
