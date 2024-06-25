@@ -1,12 +1,21 @@
-import React, { createContext, useState, useContext } from 'react';
+import React from 'react';
 import Toast from '../components/Toast';
 
-const AuthContext = createContext();
+const AuthContext = React.createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
 
-  const login = () => {
+  React.useEffect(() => {
+    // Carregar o estado de autenticação do localStorage
+    const userId = localStorage.getItem('userId');
+    if (userId && userId !== undefined) {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  const login = (userId) => {
+    localStorage.setItem('userId', userId);
     setIsAuthenticated(true);
     Toast.success({
       message: "Login realizado com sucesso!",
@@ -14,6 +23,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
+    localStorage.removeItem('userId');
     setIsAuthenticated(false);
     Toast.success({
       message: "Logout realizado com sucesso!",
@@ -28,5 +38,5 @@ export const AuthProvider = ({ children }) => {
 };
 
 export const useAuth = () => {
-  return useContext(AuthContext);
+  return React.useContext(AuthContext);
 };

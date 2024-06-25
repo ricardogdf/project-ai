@@ -40,7 +40,7 @@ function Login() {
       const { data } = await handleLogin(formData);
 
       if (data.ID) {
-        login();
+        login(data.ID);
         navigate("/home");
         Toast.success({
           message: "Login realizado com sucesso!",

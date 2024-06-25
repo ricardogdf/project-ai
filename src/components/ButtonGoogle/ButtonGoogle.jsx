@@ -8,11 +8,8 @@ const ButtonGoogle = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const handleSuccess = () => {
-    Toast.success({
-      message: "Login com o google realizado com sucesso!",
-    });
-    login();
+  const handleSuccess = ({ credential }) => {
+    login(credential);
     navigate("/home");
   };
 

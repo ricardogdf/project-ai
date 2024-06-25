@@ -11,8 +11,8 @@ const ButtonFacebook = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const handleSuccess = () => {
-    login();
+  const handleSuccess = ({ userID }) => {
+    login(userID);
     navigate("/home");
   };
 
