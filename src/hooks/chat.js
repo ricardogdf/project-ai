@@ -12,6 +12,7 @@ export const handleUploadPDF = async (data) => {
           }
       );
       console.log('Dados enviados com sucesso:', response.data);
+      return response.data
     } catch (error) {
       console.error('Erro ao fazer a requisição:', error);
     }

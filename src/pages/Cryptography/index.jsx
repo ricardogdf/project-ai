@@ -34,7 +34,7 @@ function Cryptography() {
         });
       }
     } catch {
-      console.log("Não há novos registros para serem salvos");
+      Toast.error({ message: "Não há novos registros para serem salvos" });
     }
   };
 

@@ -17,6 +17,7 @@ import Cryptography from './pages/Cryptography';
 import Tasks from './pages/Tasks';
 import SingUp from './pages/SignUp';
 import Toast from './components/Toast';
+import Consumption from './pages/Consumption';
 
 function isUserLoggedIn() {
   return localStorage.getItem('userId') !== null;
@@ -41,30 +42,34 @@ root.render(
   <React.StrictMode>
     <Router>
       <Routes>
-        <Route 
-          path='/' 
-          element={
-            <Row
-              style={{ height: "100vh", backgroundColor: "#FFF" }}
-              alignItems="center"
-              justifyContent="center"
-            >
-              <Login />
-            </Row>
-          }
-        />
-        <Route 
-          path='/cadastro' 
-          element={
-            <Row
-              style={{ height: "100vh", backgroundColor: "#FFF" }}
-              alignItems="center"
-              justifyContent="center"
-            >
-              <SingUp />
-            </Row>
-          }
-        />
+        {!isUserLoggedIn() && (
+          <Route 
+            path='/' 
+            element={
+              <Row
+                style={{ height: "100vh", backgroundColor: "#FFF" }}
+                alignItems="center"
+                justifyContent="center"
+              >
+                <Login />
+              </Row>
+            }
+          />
+          )}
+          {!isUserLoggedIn() && (
+          <Route 
+            path='/cadastro' 
+            element={
+              <Row
+                style={{ height: "100vh", backgroundColor: "#FFF" }}
+                alignItems="center"
+                justifyContent="center"
+              >
+                <SingUp />
+              </Row>
+            }
+          />
+        )}
         {isUserLoggedIn() && (
           <Route
             path='/home' 
@@ -91,6 +96,16 @@ root.render(
             element={
               <Layout>
                 <Tasks />
+              </Layout>
+            }
+          />
+        )}
+        {isUserLoggedIn() && (
+          <Route
+            path='/consumption' 
+            element={
+              <Layout>
+                <Consumption />
               </Layout>
             }
           />

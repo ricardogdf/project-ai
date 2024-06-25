@@ -1,6 +1,6 @@
 import React from "react";
 import FacebookLogin from "react-facebook-login";
-import "./ButtonFacebook.css";
+import "./index.css";
 
 const ButtonFacebook = () => {
   const responseFacebook = (response) => {

@@ -90,11 +90,11 @@ const AccountMenu = () => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={handleClose}>
+        <MenuItem>
           <Avatar /> Perfil
         </MenuItem>
         <Divider sx={{ borderColor: "var(--border-color)" }} />
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={() => navigate("/consumption")}>
           <ListItemIcon>
             <AutoGraphIcon
               sx={{ fill: "var(--primary-color)" }}

@@ -40,8 +40,8 @@ function SingUp() {
     try {
       const { data } = await handleSingUp(formData);
 
-      if (data.id) {
-        localStorage.setItem("userId", data.id);
+      if (data.ID) {
+        localStorage.setItem("userId", data.ID);
         navigate("/home");
         Toast.success({
           message: "Cadatro realizado com sucesso!",

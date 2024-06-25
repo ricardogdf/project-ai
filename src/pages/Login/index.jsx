@@ -41,8 +41,8 @@ function Login() {
     try {
       const { data } = await handleLogin(formData);
 
-      if (data.id) {
-        localStorage.setItem("userId", data.id);
+      if (data.ID) {
+        localStorage.setItem("userId", data.ID);
         navigate("/home");
         Toast.success({
           message: "Login realizado com sucesso!",

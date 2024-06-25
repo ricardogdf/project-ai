@@ -10,12 +10,14 @@ const Toast = {
   error: ({ message }) => {
     toast.error(message, {
       position: "bottom-center",
+      duration: 5000,
     });
   },
   warning: ({ message }) => {
     toast(message, {
       icon: "⚠️",
       position: "bottom-center",
+      duration: 5000,
     });
   },
 };

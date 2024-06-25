@@ -50,7 +50,6 @@ export const TextFieldWithFile = ({ boxTextAreaRef, boxChatRef }) => {
   };
 
   const handleInputFileChange = (e) => {
-    console.log("e.target.files", [...e.target.files]);
     setFile([...e.target.files]);
   };
 
@@ -59,8 +58,6 @@ export const TextFieldWithFile = ({ boxTextAreaRef, boxChatRef }) => {
   };
 
   const handleSubmit = () => {
-    console.log("file", file);
-    console.log("file[0]", file[0]);
     const normalizeValues = {
       file: { fileName: file[0].name, type: file[0].type, name: file[0].name },
     };

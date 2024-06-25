@@ -1,0 +1,8 @@
+.css-1k2u9zb-MuiChartsAxis-root .MuiChartsAxis-tickLabel, .css-1k2u9zb-MuiChartsAxis-root .MuiChartsAxis-label, tspan {
+    fill: var(--primary-color)!important;
+}
+
+line {
+    stroke: var(--primary-color)!important;
+    opacity: 0.3;
+}
