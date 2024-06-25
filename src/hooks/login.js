@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const handleLogin = async (data) => {
   try {
-    const response = await axios.post(
+    return await axios.post(
         'http://10.240.20.176:8080/DataMask/webresources/api/Usuario/ValidaLogin', 
         {
           email: data.email,
@@ -14,8 +14,7 @@ export const handleLogin = async (data) => {
           }
         }
     );
-    console.log('Dados enviados com sucesso:', response.data);
   } catch (error) {
-    console.error('Erro ao fazer a requisição:', error);
+    return error;
   }
 };

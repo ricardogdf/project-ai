@@ -7,6 +7,7 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
+  Navigate
 } from "react-router-dom";
 import Layout from './components/Layout';
 import Home from './pages/Home';
@@ -15,6 +16,25 @@ import Row from './components/Row';
 import Cryptography from './pages/Cryptography';
 import Tasks from './pages/Tasks';
 import SingUp from './pages/SignUp';
+import Toast from './components/Toast';
+
+function isUserLoggedIn() {
+  return localStorage.getItem('userId') !== null;
+}
+
+function InvalidUrl() {
+  if(isUserLoggedIn()){
+    Toast.error({
+      message: `URL inválida. Redirecionando para a home.`,
+    });
+    return <Navigate to ="/home" />
+  }else{
+    Toast.error({
+      message: `URL inválida ou pendente de login. Redirecionando para a login.`,
+    });
+    return <Navigate to ="/" />
+  }
+}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -45,30 +65,37 @@ root.render(
             </Row>
           }
         />
-        <Route
-          path='/home' 
-          element={
-            <Layout>
-              <Home />
-            </Layout>
-          }
-        />
-        <Route
-          path='/cryptography' 
-          element={
-            <Layout>
-              <Cryptography />
-            </Layout>
-          }
-        />
-        <Route
-          path='/tasks' 
-          element={
-            <Layout>
-              <Tasks />
-            </Layout>
-          }
-        />
+        {isUserLoggedIn() && (
+          <Route
+            path='/home' 
+            element={
+              <Layout>
+                <Home />
+              </Layout>
+            }
+          />
+        )}
+        {isUserLoggedIn() && (
+          <Route
+            path='/cryptography' 
+            element={
+              <Layout>
+                <Cryptography />
+              </Layout>
+            }
+          />
+        )}
+        {isUserLoggedIn() && (
+          <Route
+            path='/tasks' 
+            element={
+              <Layout>
+                <Tasks />
+              </Layout>
+            }
+          />
+        )}
+        <Route path="*" element={<InvalidUrl/>}/>
       </Routes>
     </Router>
   </React.StrictMode>

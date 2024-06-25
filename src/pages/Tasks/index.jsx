@@ -55,7 +55,7 @@ function Tasks() {
   const handleSubmit = () => {};
 
   const formik = useFormik({
-    initialValues: { rows: rows || [] },
+    initialValues: { rows: [] },
     onSubmit: (values) => {
       handleSubmit(values);
     },
@@ -104,7 +104,7 @@ function Tasks() {
     e.stopPropagation();
 
     const rowToAdd = {
-      id: formik.values.rows.at(-1).id + 1,
+      id: formik.values.rows.at(-1)?.id ? formik.values.rows.at(-1)?.id + 1 : 1,
       ativo: true,
       descricao: "",
       tarefa: "",
@@ -218,7 +218,7 @@ function Tasks() {
                       }}
                       multiline
                       fullWidth
-                      name="rows[index].descricao"
+                      name={`rows[${index}].descricao`}
                       type="text"
                       value={row.descricao}
                       onChange={formik.handleChange}
@@ -237,7 +237,7 @@ function Tasks() {
                       }}
                       multiline
                       fullWidth
-                      name="rows[index].tarefa"
+                      name={`rows[${index}].tarefa`}
                       type="text"
                       value={row.tarefa}
                       onChange={formik.handleChange}

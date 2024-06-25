@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Login.styles.js";
 import {
   Box,
@@ -19,18 +19,45 @@ import ButtonGoogle from "../../components/ButtonGoogle";
 import ButtonFacebook from "../../components/ButtonFacebook";
 import { useNavigate } from "react-router-dom";
 import { handleLogin } from "../../hooks/login.js";
+import Toast from "../../components/Toast/Toast.jsx";
+import { Toaster } from "react-hot-toast";
 
 function Login() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = React.useState(false);
+  const [isLoading, setIsloading] = React.useState(false);
 
   const validationSchema = object({
     email: string().email("Email inválido").required("Requerido"),
     password: string().required("Requerido"),
   });
 
-  const handleSubmit = (data) => {
-    handleLogin(data);
+  useEffect(() => {
+    localStorage.removeItem("userId");
+  }, []);
+
+  const handleSubmit = async (formData) => {
+    setIsloading(true);
+    try {
+      const { data } = await handleLogin(formData);
+
+      if (data.id) {
+        localStorage.setItem("userId", data.id);
+        navigate("/home");
+        Toast.success({
+          message: "Login realizado com sucesso!",
+        });
+      } else {
+        Toast.error({
+          message: `Erro ao logar. Contate o suporte.`,
+        });
+      }
+    } catch (e) {
+      Toast.error({
+        message: `Erro ao logar. Contate o suporte.`,
+      });
+    }
+    setIsloading(false);
   };
 
   const formik = useFormik({
@@ -43,6 +70,7 @@ function Login() {
 
   return (
     <form onSubmit={formik.handleSubmit}>
+      <Toaster />
       <Box
         mb={4}
         sx={{
@@ -102,7 +130,7 @@ function Login() {
           sx={{ height: "52px" }}
           fullWidth
           type="submit"
-          loading={false}
+          loading={isLoading}
           loadingPosition="end"
           variant="contained"
         >

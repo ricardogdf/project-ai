@@ -57,11 +57,11 @@ function Cryptography() {
       formik.setValues({ ...formik.values, rowToUpdate });
 
       Toast.success({
-        message: "Cliente atualizado com sucesso!",
+        message: "Máscara atualizado com sucesso!",
       });
     } catch (error) {
       Toast.error({
-        message: `Erro ao atualizar cliente. Contate o suporte.`,
+        message: `Erro ao atualizar máscara. Contate o suporte.`,
       });
     }
   };
@@ -88,10 +88,10 @@ function Cryptography() {
     e.stopPropagation();
 
     const rowToAdd = {
-      id: formik.values.rows.at(-1).id + 1,
+      id: formik.values.rows.at(-1)?.id ? formik.values.rows.at(-1)?.id + 1 : 1,
       ativo: true,
-      entrada: "",
-      criptografia: "",
+      nome: "",
+      regex: "",
     };
 
     try {
@@ -202,9 +202,9 @@ function Cryptography() {
                       }}
                       multiline
                       fullWidth
-                      name="rows[index].entrada"
+                      name={`rows[${index}].nome`}
                       type="text"
-                      value={row.entrada}
+                      value={row.nome}
                       onChange={formik.handleChange}
                     />
                   </TableCell>
@@ -221,9 +221,9 @@ function Cryptography() {
                       }}
                       multiline
                       fullWidth
-                      name="rows[index].entrada"
+                      name={`rows[${index}].regex`}
                       type="text"
-                      value={row.criptografia}
+                      value={row.regex}
                       onChange={formik.handleChange}
                     />
                   </TableCell>

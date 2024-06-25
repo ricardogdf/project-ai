@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./SingUp.styles.js";
 import {
   Box,
@@ -16,10 +16,13 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useNavigate } from "react-router-dom";
 import { handleSingUp } from "../../hooks/sing-up.js";
+import Toast from "../../components/Toast/Toast.jsx";
+import { Toaster } from "react-hot-toast";
 
 function SingUp() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = React.useState(false);
+  const [isLoading, setIsloading] = React.useState(false);
 
   const validationSchema = object({
     name: string().required("Requerido"),
@@ -28,8 +31,32 @@ function SingUp() {
     password: string().required("Requerido"),
   });
 
-  const handleSubmit = (data) => {
-    handleSingUp(data);
+  useEffect(() => {
+    localStorage.removeItem("userId");
+  }, []);
+
+  const handleSubmit = async (formData) => {
+    setIsloading(true);
+    try {
+      const { data } = await handleSingUp(formData);
+
+      if (data.id) {
+        localStorage.setItem("userId", data.id);
+        navigate("/home");
+        Toast.success({
+          message: "Cadatro realizado com sucesso!",
+        });
+      } else {
+        Toast.error({
+          message: `Erro ao cadastrar. Contate o suporte.`,
+        });
+      }
+    } catch (e) {
+      Toast.error({
+        message: `Erro ao cadastrar. Contate o suporte.`,
+      });
+    }
+    setIsloading(false);
   };
 
   const formik = useFormik({
@@ -42,6 +69,7 @@ function SingUp() {
 
   return (
     <form onSubmit={formik.handleSubmit}>
+      <Toaster />
       <Box
         mb={4}
         sx={{
@@ -135,7 +163,7 @@ function SingUp() {
           sx={{ height: "52px" }}
           fullWidth
           type="submit"
-          loading={false}
+          loading={isLoading}
           loadingPosition="end"
           variant="contained"
         >
