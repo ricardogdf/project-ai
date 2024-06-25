@@ -55,7 +55,7 @@ function Tasks() {
   const handleSubmit = () => {};
 
   const formik = useFormik({
-    initialValues: { rows: [] },
+    initialValues: { rows: rows || [] },
     onSubmit: (values) => {
       handleSubmit(values);
     },
