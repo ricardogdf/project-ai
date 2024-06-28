@@ -14,12 +14,14 @@ function Financial() {
 
       <Box mb="24px">
         <Button
+          onClick={() => setIsYear(false)}
           sx={{ borderRadius: "0" }}
           variant={!isYear ? "contained" : "outlined"}
         >
           Mensal
         </Button>
         <Button
+          onClick={() => setIsYear(true)}
           sx={{ borderRadius: "0" }}
           variant={isYear ? "contained" : "outlined"}
         >
@@ -42,7 +44,7 @@ function Financial() {
         />
         <BoxPlans
           title="Básico"
-          price="30"
+          price={isYear ? "25" : "30"}
           description="Plano básico, para usuários que utilizam a aplicação ocasionalmente."
           activePlan={false}
           advantage={[
@@ -54,7 +56,7 @@ function Financial() {
         />
         <BoxPlans
           title="Intermediário"
-          price="120"
+          price={isYear ? "100" : "120"}
           description="Plano intermediário, para usuários que utilizam a aplicação com frequencia."
           activePlan={false}
           advantage={[
@@ -66,7 +68,7 @@ function Financial() {
         />
         <BoxPlans
           title="Profissional"
-          price="200"
+          price={isYear ? "150" : "200"}
           description="Plano profissional, para usuários que trabalham frequentemente com a aplicação."
           activePlan={false}
           advantage={[

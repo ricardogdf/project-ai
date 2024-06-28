@@ -38,6 +38,8 @@ function Login() {
     setIsloading(true);
     try {
       const { data } = await handleLogin(formData);
+      console.log("data", data);
+      console.log("data.ID", data.ID);
 
       if (data.ID) {
         login(data.ID);

@@ -37,6 +37,8 @@ function SingUp() {
     setIsloading(true);
     try {
       const { data } = await handleSingUp(formData);
+      console.log("data", data);
+      console.log("data.ID", data.ID);
 
       if (data.ID) {
         login(data.ID);
