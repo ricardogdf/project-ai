@@ -1,5 +1,6 @@
 import { Box, Button, Typography } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
+import { useNavigate } from "react-router-dom";
 
 const BoxPlans = ({
   title,
@@ -8,7 +9,15 @@ const BoxPlans = ({
   advantage,
   signature = true,
   activePlan,
+  frequency,
 }) => {
+  const navigate = useNavigate();
+
+  const navigateToPayment = () => {
+    if (!activePlan) {
+      navigate("/checkout");
+    }
+  };
   return (
     <Box
       width="250px"
@@ -37,10 +46,13 @@ const BoxPlans = ({
           variant="caption"
           gutterBottom
         >
-          {signature ? "Por mês" : ""}
+          {signature ? `Por mês - ${frequency}` : ""}
         </Typography>
       </Box>
-      <Button variant={activePlan ? "outlined" : "contained"}>
+      <Button
+        variant={activePlan ? "outlined" : "contained"}
+        onClick={() => navigateToPayment()}
+      >
         {activePlan ? "Plano atual" : "Selecionar plano"}
       </Button>
       <Typography

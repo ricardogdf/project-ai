@@ -93,7 +93,7 @@ const AccountMenu = () => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem>
+        <MenuItem onClick={() => navigate("/profile")}>
           <Avatar /> Perfil
         </MenuItem>
         <Divider sx={{ borderColor: "var(--border-color)" }} />

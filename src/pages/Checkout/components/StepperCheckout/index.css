@@ -1,0 +1,7 @@
+span {
+  color: var(--primary-color)!important
+}
+
+.Mui-active, .Mui-completed {
+  color: #784af4!important
+}

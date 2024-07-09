@@ -1,0 +1,11 @@
+input, label {
+    color: var(--primary-color)!important
+}
+
+fieldset {
+    border-color: var(--primary-color)!important
+}
+
+svg {
+    fill: var(--primary-color)!important
+}

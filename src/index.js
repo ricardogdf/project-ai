@@ -22,6 +22,10 @@ import { AuthProvider, useAuth } from './context/authContext';
 import PrivateRoute from './routes/PrivateRoute';
 import OpenRoute from './routes/OpenRoute';
 import Financial from './pages/Financial';
+import Profile from './pages/Profile';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import Checkout from './pages/Checkout';
 
 function InvalidUrl() {
   const { isAuthenticated } = useAuth();
@@ -38,6 +42,8 @@ function InvalidUrl() {
     return <Navigate to="/" />
   }
 }
+
+const stripePromise = loadStripe('sua-public-key-do-stripe');
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -87,12 +93,20 @@ root.render(
             <Route path='/tasks' element={<Layout> <Tasks /> </Layout>} />
           </Route>
 
+          <Route path='/profile' element={<PrivateRoute />}>
+            <Route path='/profile' element={<Layout> <Profile /> </Layout>} />
+          </Route>
+       
           <Route path='/consumption' element={<PrivateRoute />}>
             <Route path='/consumption' element={<Layout> <Consumption /> </Layout>} />
           </Route>
  
           <Route path='/financial' element={<PrivateRoute />}>
             <Route path='/financial' element={<Layout> <Financial /> </Layout>} />
+          </Route>
+      
+          <Route path='/checkout' element={<PrivateRoute />}>
+            <Route path='/checkout' element={ <Layout><Elements stripe={stripePromise}> <Checkout /> </Elements></Layout>} />
           </Route>
 
           <Route path="*" element={<InvalidUrl/>}/>

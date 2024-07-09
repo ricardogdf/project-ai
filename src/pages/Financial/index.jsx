@@ -43,6 +43,7 @@ function Financial() {
           activePlan={true}
         />
         <BoxPlans
+          frequency={isYear ? "Anual" : "Mensal"}
           title="Básico"
           price={isYear ? "25" : "30"}
           description="Plano básico, para usuários que utilizam a aplicação ocasionalmente."
@@ -55,6 +56,7 @@ function Financial() {
           ]}
         />
         <BoxPlans
+          frequency={isYear ? "Anual" : "Mensal"}
           title="Intermediário"
           price={isYear ? "100" : "120"}
           description="Plano intermediário, para usuários que utilizam a aplicação com frequencia."
@@ -67,6 +69,7 @@ function Financial() {
           ]}
         />
         <BoxPlans
+          frequency={isYear ? "Anual" : "Mensal"}
           title="Profissional"
           price={isYear ? "150" : "200"}
           description="Plano profissional, para usuários que trabalham frequentemente com a aplicação."

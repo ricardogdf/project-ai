@@ -3,15 +3,16 @@ import Content from "./Home.styles.js";
 import Chat from "./components/Chat";
 import TextFieldWithFile from "./components/TextFieldWithFile";
 import { Box } from "@mui/material";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 function Home() {
+  const [content, setContent] = useState([]);
   const boxTextAreaRef = useRef(null);
 
   return (
     <Box width="100%" height="100vh">
       <Content>
-        <Chat />
+        <Chat content={content} />
       </Content>
       <div
         ref={boxTextAreaRef}
@@ -23,7 +24,11 @@ function Home() {
         flexDirection="column"
         alignItems="center"
       >
-        <TextFieldWithFile boxTextAreaRef={boxTextAreaRef} />
+        <TextFieldWithFile
+          boxTextAreaRef={boxTextAreaRef}
+          content={content}
+          setContent={setContent}
+        />
       </div>
     </Box>
   );

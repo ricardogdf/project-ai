@@ -1,40 +1,49 @@
 import * as React from "react";
 import "./index.css";
-import { Box } from "@mui/material";
-import { Gauge, LineChart } from "@mui/x-charts";
-import TickPlacementBars from "./components/TickPlacementBars";
+import { Box, Button, IconButton, Typography } from "@mui/material";
+import { Gauge } from "@mui/x-charts";
+import TinyBarChart from "./components/TinyBarChart";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 function Consumption() {
   return (
-    <Box display="flex" justifyContent="space-around" alignItems="center">
-      <Box>
-        <LineChart
-          color="#FFF"
-          xAxis={[{ data: [1, 2, 3, 5, 8, 10] }]}
-          series={[
-            {
-              data: [2, 5.5, 2, 8.5, 1.5, 5],
-            },
-          ]}
-          width={500}
-          height={300}
-          margin={{ left: 30, right: 30, top: 30, bottom: 30 }}
-          grid={{ vertical: true, horizontal: true }}
-        />
+    <Box width="70%">
+      <Box my="32px" display="flex" justifyContent="space-between">
+        <Box
+          sx={{ borderRadius: "8px", border: "1px solid var(--border-color)" }}
+          display="flex"
+          alignItems="center"
+        >
+          <IconButton aria-label="ativo">
+            <KeyboardArrowLeftIcon sx={{ fill: "var(--primary-color)" }} />
+          </IconButton>
+          Junho
+          <IconButton aria-label="ativo">
+            <KeyboardArrowRightIcon sx={{ fill: "var(--primary-color)" }} />
+          </IconButton>
+        </Box>
+
+        <Button variant="contained">Export</Button>
       </Box>
-      <Box>
-        <Gauge
-          width={150}
-          height={150}
-          value={102}
-          valueMax={120}
-          text={({ value, valueMax }) =>
-            `${(100 * (value / valueMax)).toFixed(2)}%`
-          }
-        />
-      </Box>
-      <Box>
-        <TickPlacementBars />
+      <Box display="flex" justifyContent="space-around" alignItems="center">
+        <Box width="700px">
+          <TinyBarChart />
+        </Box>
+        <Box>
+          <Typography variant="subtitle1" fontWeight="bold">
+            Consumo do plano
+          </Typography>
+          <Gauge
+            width={150}
+            height={150}
+            value={102}
+            valueMax={120}
+            text={({ value, valueMax }) =>
+              `${(100 * (value / valueMax)).toFixed(2)}%`
+            }
+          />
+        </Box>
       </Box>
     </Box>
   );

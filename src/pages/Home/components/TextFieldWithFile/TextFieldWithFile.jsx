@@ -4,7 +4,7 @@ import AttachFileIcon from "@mui/icons-material/AttachFile";
 import Row from "../../../../components/Row";
 import SendIcon from "@mui/icons-material/Send";
 import useAutosizeTextArea from "../../../../utils/useAutosizeTextArea";
-import { handleUploadPDF } from "../../../../hooks/chat";
+import { handleMaskText, handleUploadPDF } from "../../../../hooks/chat";
 
 const tasks = [
   {
@@ -34,7 +34,7 @@ const tasks = [
   //},
 ];
 
-export const TextFieldWithFile = ({ boxTextAreaRef, boxChatRef }) => {
+export const TextFieldWithFile = ({ boxTextAreaRef, content, setContent }) => {
   const [file, setFile] = useState([]);
   const [text, setText] = useState("");
   const fileInput = useRef(null);
@@ -57,11 +57,41 @@ export const TextFieldWithFile = ({ boxTextAreaRef, boxChatRef }) => {
     setText(task);
   };
 
-  const handleSubmit = () => {
-    const normalizeValues = {
-      file: { fileName: file[0].name, type: file[0].type, name: file[0].name },
-    };
-    handleUploadPDF(normalizeValues);
+  const handleSubmit = async () => {
+    const userId = localStorage.getItem("userId");
+
+    if (file.length) {
+      file.map(async (f) => {
+        const formData = new FormData();
+        formData.append("file", f);
+        formData.append("user_id", userId);
+        return await handleUploadPDF(formData);
+      });
+    } else {
+      const normalizeValues = {
+        text: text,
+        user_id: userId,
+      };
+
+      const userSubmit = {
+        remetente: "usuario",
+        mensagem: text,
+        anexos: [],
+      };
+
+      setContent(...content, userSubmit);
+
+      const response = await handleMaskText(normalizeValues);
+
+      const iaSubmit = {
+        remetente: "ia",
+        mensagem: response,
+        anexos: [],
+      };
+
+      setContent(...content, iaSubmit);
+      setText("");
+    }
   };
 
   return (
@@ -137,6 +167,7 @@ export const TextFieldWithFile = ({ boxTextAreaRef, boxChatRef }) => {
         <Row alignItems="end" padding="8px">
           <Row sx={{ width: "3rem" }}>
             <input
+              accept=".pdf,.wav"
               ref={fileInput}
               style={{ display: "none" }}
               multiple
