@@ -1,61 +1,50 @@
-import React, { useState } from "react";
-import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import "./index.css";
+import React, { useEffect, useState } from "react";
+import { Elements } from "@stripe/react-stripe-js";
 import { Box, Button, Divider, TextField, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
 import StepperCheckout from "./components/StepperCheckout/StepperCheckout";
 import RadioButton from "./components/RadioButton/RadioButton";
 import PeopleOutlineOutlinedIcon from "@mui/icons-material/PeopleOutlineOutlined";
+import { loadStripe } from "@stripe/stripe-js";
+import Payment from "./components/Payment/Payment";
+import axios from "axios";
+
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const stripe = useStripe();
-  const elements = useElements();
+  const [clientSecret, setClientSecret] = useState("");
+  console.log("clientSecret", clientSecret);
 
-  const plan = { label: "Básico", monthlyValue: 30, annualValue: 24 };
-
-  const [paymentSucceeded, setPaymentSucceeded] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [activeStep, setActiveStep] = useState(0);
-  const [formOfPayment, setFormOfPayment] = useState("anual");
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    if (!stripe || !elements) {
-      return;
-    }
-
-    const cardElement = elements.getElement(CardElement);
-
-    try {
-      const { clientSecret } = await fetch(
-        "http://localhost:8080/create-payment-intent",
+  useEffect(() => {
+    // Create PaymentIntent as soon as the page loads
+    axios
+      .post(
+        "http://localhost:4242/create-payment-intent",
+        JSON.stringify({ items: [{ id: "xl-tshirt" }] }),
         {
-          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ amount: 1000 }), // Exemplo de valor em centavos (10 dólares)
         }
-      ).then((res) => res.json());
+      )
+      .then(({ data }) => setClientSecret(data.clientSecret));
+  }, []);
 
-      const payload = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-          card: cardElement,
-        },
-      });
-
-      if (payload.error) {
-        setErrorMessage(`Pagamento falhou: ${payload.error.message}`);
-      } else {
-        setPaymentSucceeded(true);
-        setErrorMessage("");
-      }
-    } catch (error) {
-      setErrorMessage(`Erro: ${error.message}`);
-    }
+  const appearance = {
+    theme: "night",
   };
+  const options = {
+    clientSecret,
+    appearance,
+  };
+
+  const plan = { label: "Básico", monthlyValue: 30, annualValue: 24 };
+
+  const [activeStep, setActiveStep] = useState(0);
+  const [formOfPayment, setFormOfPayment] = useState("anual");
 
   return (
     <Box width="70%" height="100vh" display="flex">
@@ -141,16 +130,11 @@ const Checkout = () => {
             onChange={() => console.log("empresa")}
           />
         )}
-        {activeStep === 2 && (
+        {activeStep === 2 && clientSecret && (
           //Tela ativa => pagamento
-          <form onSubmit={handleSubmit}>
-            <CardElement />
-            <button type="submit" disabled={!stripe}>
-              Pagar
-            </button>
-            {paymentSucceeded && <p>Pagamento bem-sucedido!</p>}
-            {errorMessage && <p>{errorMessage}</p>}
-          </form>
+          <Elements options={options} stripe={stripePromise}>
+            <Payment />
+          </Elements>
         )}
         <Divider sx={{ mt: "16px", borderColor: "var(--border-color)" }} />
       </Box>

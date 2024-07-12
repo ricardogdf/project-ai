@@ -35,7 +35,7 @@ const ButtonFacebook = () => {
             justifyContent: "space-between",
             pr: "50px",
             textTransform: "none",
-            color: "#202124",
+            color: "var(--primary-color)",
             borderColor: "#dadce0",
             "&: hover": {
               borderColor: "#dadce0",

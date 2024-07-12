@@ -77,7 +77,7 @@ function SingUp() {
           alignItems: "center",
         }}
       >
-        <Typography mb="24px" variant="h4" fontWeight="bold" color="#000">
+        <Typography mb="24px" variant="h4" fontWeight="bold">
           Seja bem-vindo!
         </Typography>
         <TextField

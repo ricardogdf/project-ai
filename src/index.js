@@ -23,8 +23,6 @@ import PrivateRoute from './routes/PrivateRoute';
 import OpenRoute from './routes/OpenRoute';
 import Financial from './pages/Financial';
 import Profile from './pages/Profile';
-import { Elements } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
 import Checkout from './pages/Checkout';
 
 function InvalidUrl() {
@@ -42,9 +40,6 @@ function InvalidUrl() {
     return <Navigate to="/" />
   }
 }
-
-const stripePromise = loadStripe('sua-public-key-do-stripe');
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
@@ -56,7 +51,7 @@ root.render(
               path='/' 
               element={
                 <Row
-                  style={{ height: "100vh", backgroundColor: "#FFF" }}
+                  style={{ height: "100vh" }}
                   alignItems="center"
                   justifyContent="center"
                 >
@@ -71,7 +66,7 @@ root.render(
               path='/cadastro' 
               element={
                 <Row
-                  style={{ height: "100vh", backgroundColor: "#FFF" }}
+                  style={{ height: "100vh" }}
                   alignItems="center"
                   justifyContent="center"
                 >
@@ -106,7 +101,7 @@ root.render(
           </Route>
       
           <Route path='/checkout' element={<PrivateRoute />}>
-            <Route path='/checkout' element={ <Layout><Elements stripe={stripePromise}> <Checkout /> </Elements></Layout>} />
+            <Route path='/checkout' element={ <Layout> <Checkout /> </Layout>} />
           </Route>
 
           <Route path="*" element={<InvalidUrl/>}/>
